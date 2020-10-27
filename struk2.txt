@@ -1,0 +1,132 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define M (256)  //zasto zagrade?
+
+typedef struct osoba *lista;
+
+ struct osoba{
+	char ime[M], prezime[M];
+	int god,el;
+	lista next;
+};
+
+lista covjek(char*, char *, int, lista);
+void ispis(lista);
+void unospoc(int, lista);
+void unoskraj(int, lista);
+lista trazi(char*, lista);
+void brisi(char *, lista);
+
+int main(void) {
+	//zasto sve na NULL postavljamo
+	char imee[M]; //kada stavim na NULL izbaciva error
+	char prezimee[M];
+	char traziprez[M];
+	int godd = NULL, ele,i=0;
+	struct osoba head;
+	head.next = NULL;
+	lista p = NULL;
+	
+	while (i<1) {
+		printf("unesi ime osobe:\t");
+		scanf("%s", imee);
+
+		printf("\nunesi prezime:\t");
+		scanf("%s", prezimee);
+
+		printf("\nunesi godiste:\t");
+		scanf("%d", &godd);
+
+		p = covjek(imee, prezimee, godd,&head);
+		ispis(head.next);
+		i++;
+	}
+	printf("unesi neki element na pocetak liste\n");
+	scanf("%d", &ele);
+	unospoc(ele, &head);
+
+	printf("unesi neki element na kraj liste\n");
+	scanf("%d", &ele);
+	unoskraj(ele, &head);
+
+	printf("unesi prezime koje zelis pronaci\n");
+	scanf("%s", traziprez);
+	trazi(traziprez,&head);
+
+	printf("unesi koje ime ili prezime zelis izbrisati\n");
+	scanf("%s", traziprez);
+	brisi(traziprez, &head);
+
+	return EXIT_SUCCESS;
+}
+
+lista covjek(char *imee, char *prezimee, int godd, lista q) {
+
+	lista p;
+	p = (lista)malloc(sizeof(struct osoba));
+	if (!p) {
+		printf("memory allocation failed!\r\n");
+		return NULL;
+	}
+	strcpy(p->ime, imee);
+	strcpy(p->prezime, prezimee);
+	p->god = godd;
+	p->next = q->next;
+	q->next = p;
+	return p;
+}
+
+void ispis(lista p) {
+	printf("\nispis:\t");
+	while (p!=NULL) {
+		printf("%s\t%s\t%d", p->ime, p->prezime, p->god);
+		p = p->next;
+	}
+	puts("\n");
+}
+
+void unospoc(int x, lista p) {
+	lista q;
+	q = (lista)malloc(sizeof(struct osoba));
+	q->el = x;
+	q->next = p->next;
+	p->next = q;
+}
+
+void unoskraj(int x, lista p) {
+	lista q;
+	q = (lista)malloc(sizeof(struct osoba));
+	q->el = x;
+	while (p->next != NULL) {
+		p = p->next;
+		q->next = p->next;
+	}
+	p->next = q;
+}
+
+lista trazi(char *trazi,lista head) {
+	lista p = NULL;
+	for (p = head->next; p != NULL ; p = p->next) {
+		printf("evo me u petlji %s\n",trazi);
+		if (strcmp(p->prezime, trazi)) {
+			printf("nadoh %s\n",p->prezime);
+			break;
+		}
+	};
+	return p->prezime;
+}
+
+void brisi(char *rijec, lista p) {
+	lista pret;
+	pret = (lista)malloc(sizeof(struct osoba));
+	while(p!=NULL &&(!strcmp(p->ime,rijec) || !strcmp(p->prezime,rijec))){
+		pret->next = p->next;
+		p = p->next;
+		printf("evo me u petlji\n");
+	}
+	if(pret!=NULL){
+	pret->next = p->next;
+	}
+}
+

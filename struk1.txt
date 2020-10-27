@@ -1,0 +1,53 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define _CRT_SECURE_NO_WARNINGS
+
+
+typedef struct {
+	char imeiprezime[200];
+	float rel;
+	int aps;
+}popis;
+
+int main() {
+	FILE *dat;
+	dat = fopen("popis.txt", "r");
+	popis *x;
+	char ime[100], prezime[100], imeiprez[200];
+	int brred=0,ocjena,i,bod=100;
+	char c;
+
+	//odredivanje redaka tj broja studenata
+	do {
+		c = fgetc(dat);
+		if (c == "\n")
+			brred++;
+		if (feof(dat))
+			break;
+	
+	} while (1);
+
+	//dinamicka lokacija memorije za podatke
+	x = (popis *)(brred * sizeof(popis));
+	
+	//ucitavanje podataka iz datoteke u strukturu
+	for (i = 0; i < brred; i++) {
+
+		fscanf(dat, "%s %s %d", ime, prezime,&ocjena);
+		x[i].aps = ocjena;
+		x[i].rel = (ocjena / bod) * 100;
+		strcpy(imeiprez, ime);
+		strcat(imeiprez, " ");
+		strcat(imeiprez, prezime);
+		strcpy(x[i].imeiprezime, imeiprez);
+		fgetc(dat);//ucitavanje entera
+	}
+	//ispisivanje podataka
+	for (i = 0; i < brred; i++) {
+		printf("ime,perzime, apsolutni i relativni broj bodova %d. studenta je: %s\t%d\t%.2f\n", i + 1, x[i].imeiprezime,x[i].aps,x[i].rel);
+	}
+
+	fclose(dat);
+	return 0;
+}
