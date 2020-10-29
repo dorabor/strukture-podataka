@@ -1,0 +1,6 @@
+﻿  vjezba2.c
+c:\users\user\source\repos\strukture2\strukture2\vjezba2.c(68): warning C4474: 'scanf' : too many arguments passed for format string
+  c:\users\user\source\repos\strukture2\strukture2\vjezba2.c(68): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
+c:\users\user\source\repos\strukture2\strukture2\vjezba2.c(27): warning C4047: 'initializing': 'int' differs in levels of indirection from 'void *'
+c:\users\user\source\repos\strukture2\strukture2\vjezba2.c(150): warning C4133: 'return': incompatible types - from 'char [256]' to 'lista'
+  strukture2.vcxproj -> C:\Users\User\source\repos\strukture2\Debug\strukture2.exe
